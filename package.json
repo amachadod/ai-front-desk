@@ -1,0 +1,16 @@
+{
+  "name": "ai-front-desk",
+  "version": "1.0.0",
+  "description": "One front door for AI ideas: request, route, approve, measure. A simulated demo for a fictional company, with real triage rules, tests and an adoption kit.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Alberto Machado Domínguez",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "triage": "node scripts/triage.js",
+    "demo": "node scripts/demo.js",
+    "build:demo": "node scripts/build-demo.js",
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["ai-adoption", "ai-governance", "intake", "triage", "claude", "portfolio"]
+}

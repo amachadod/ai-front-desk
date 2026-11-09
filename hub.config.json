@@ -1,0 +1,54 @@
+{
+  "_note": "Rename the project here and in the README title. Everything else reads from this file.",
+  "name": "AI Front Desk",
+  "slug": "ai-front-desk",
+  "tagline": "One front door for AI ideas: request, route, approve, measure.",
+  "company": "Northwind SaaS",
+  "companyNote": "Northwind SaaS is a fictional remote software company. Its people, requests and numbers are made up.",
+  "duplicateThreshold": 0.35,
+  "tools": [
+    {
+      "id": "minuta", "name": "Minuta", "accent": "#d23a26",
+      "does": "Turns call notes into tasks for the right team, in an issue tracker or a CRM, with a follow-up email draft.",
+      "when": "Calls, meetings, transcripts, next steps, follow-ups after a call.",
+      "keywords": ["call", "calls", "meeting", "meetings", "transcript", "transcripts", "granola", "next steps", "action items", "follow-up", "follow up", "discovery", "check-in", "renewal call", "summarising calls", "summarizing calls", "call notes"],
+      "demo": "https://amachadod.github.io/minuta/", "code": "https://github.com/amachadod/minuta"
+    },
+    {
+      "id": "posta", "name": "Posta", "accent": "#f2b705",
+      "does": "Reads the inbox every morning, sends a briefing of what needs you, and drafts replies in your voice. Never sends for you.",
+      "when": "Email overload, inbox triage, reply drafts, a morning briefing.",
+      "keywords": ["inbox", "email", "emails", "gmail", "reply", "replies", "briefing", "unread", "triage my email", "mailbox"],
+      "demo": "https://amachadod.github.io/posta/", "code": "https://github.com/amachadod/posta"
+    },
+    {
+      "id": "threadline", "name": "Threadline", "accent": "#0f766e",
+      "does": "Turns documents into a second brain, including a company handbook mode that answers from Notion pages and cites them.",
+      "when": "Company knowledge, handbook and policy questions, finding where something is written down.",
+      "keywords": ["handbook", "policy", "policies", "notion", "wiki", "knowledge", "documentation", "docs", "where is", "find information", "onboarding questions", "answers from our", "internal questions", "out of date"],
+      "demo": "https://amachadod.github.io/threadline/", "code": "https://github.com/amachadod/threadline"
+    },
+    {
+      "id": "signalpost", "name": "Signalpost", "accent": "#e14d12",
+      "does": "Writes a native post per social network from a plain-words plan, checks each network's rules, and schedules only after approval.",
+      "when": "Social media posts, content calendars, scheduling reels and carousels.",
+      "keywords": ["social", "instagram", "tiktok", "linkedin post", "linkedin posts", "posts", "captions", "content calendar", "schedule posts", "reels", "carousel", "youtube shorts"],
+      "demo": "https://amachadod.github.io/signalpost/", "code": "https://github.com/amachadod/signalpost"
+    },
+    {
+      "id": "plano", "name": "Plano", "accent": "#1f47c7",
+      "does": "Forecasts what a paid media budget buys across channels and markets.",
+      "when": "Paid media budgets, media plans, forecasting clicks, CPA or ROAS.",
+      "keywords": ["budget", "media plan", "paid media", "forecast", "cpa", "roas", "ad spend", "campaign budget", "media budget"],
+      "demo": "https://amachadod.github.io/plano/", "code": "https://github.com/amachadod/plano"
+    },
+    {
+      "id": "adsdetective", "name": "AdsDetective", "accent": "#8f2f3d",
+      "does": "Ranks which ads keep running in Meta's public Ad Library, a clue that they work.",
+      "when": "Competitor ads, ad research, which creatives work in a market.",
+      "keywords": ["competitor ads", "competitors' ads", "ad library", "ad research", "which ads", "creatives", "competitor", "competitors"],
+      "demo": "https://amachadod.github.io/adsdetective/", "code": "https://github.com/amachadod/adsdetective"
+    }
+  ],
+  "teams": ["Marketing", "Sales", "Support", "Customer success", "Finance", "Operations", "Product"]
+}
