@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Front Desk</title>
+<meta name="description" content="One front door for AI ideas: request, route, approve, measure. A simulated demo for a fictional company, with real triage rules.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fd-ink:#15192b; --fd-muted:#5c6170; --fd-paper:#f6f5f1; --fd-surface:#ffffff; --fd-line:#e2e0d9; --fd-soft:#efeee9;
+  --fd-accent:#4338ca; --fd-accent-soft:#e8e7fb; --fd-on-accent:#ffffff;
+  --fd-ok:#17784a; --fd-warn:#9a6200; --fd-risk:#b42318;
+  --fd-display:"Fraunces",Georgia,serif; --fd-body:"Public Sans",system-ui,sans-serif; --fd-mono:"IBM Plex Mono",ui-monospace,monospace;
+  --shadow:0 1px 2px rgba(20,20,40,.05),0 6px 20px rgba(20,20,40,.05);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --fd-ink:#ecebf3; --fd-muted:#a3a7b3; --fd-paper:#12141c; --fd-surface:#1b1e29; --fd-line:#2d3140; --fd-soft:#232634;
+    --fd-accent:#a5b4fc; --fd-accent-soft:#272b4a; --fd-on-accent:#12141c;
+    --fd-ok:#52c48a; --fd-warn:#e2ad4a; --fd-risk:#ff7b6e; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --fd-ink:#ecebf3; --fd-muted:#a3a7b3; --fd-paper:#12141c; --fd-surface:#1b1e29; --fd-line:#2d3140; --fd-soft:#232634;
+  --fd-accent:#a5b4fc; --fd-accent-soft:#272b4a; --fd-on-accent:#12141c;
+  --fd-ok:#52c48a; --fd-warn:#e2ad4a; --fd-risk:#ff7b6e; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark;
+}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--fd-paper);color:var(--fd-ink);font:16px/1.55 var(--fd-body);overflow-x:hidden}
+a{color:var(--fd-accent)}
+:focus-visible{outline:2px solid var(--fd-accent);outline-offset:2px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 16px}
+h1,h2,h3{font-family:var(--fd-display);line-height:1.12;margin:0;font-weight:700}
+h2{font-size:clamp(26px,4vw,36px)}
+h3{font-size:18px;font-family:var(--fd-body)}
+code,.mono{font-family:var(--fd-mono);font-size:.88em}
+button,input,textarea,select{font:inherit;color:inherit}
+.muted{color:var(--fd-muted)}
+.kicker{font:500 12px/1 var(--fd-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--fd-accent);margin-bottom:10px}
+section{padding:52px 0}
+.card{background:var(--fd-surface);border:1px solid var(--fd-line);border-radius:14px;box-shadow:var(--shadow);min-width:0}
+.pad{padding:18px}
+.label{display:inline-block;font:500 11px var(--fd-mono);text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;border-radius:6px;background:var(--fd-soft);color:var(--fd-muted)}
+header.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--fd-paper) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--fd-line)}
+header.top .wrap{display:flex;align-items:center;gap:14px;height:58px}
+.logo{display:flex;align-items:center;gap:9px;font:700 19px var(--fd-display);color:var(--fd-ink);text-decoration:none}
+.logo svg{width:26px;height:26px}
+nav.links{margin-left:auto;display:flex;align-items:center;gap:16px}
+nav.links a{color:var(--fd-muted);text-decoration:none;font-size:15px}
+nav.links a:hover{color:var(--fd-ink)}
+@media (max-width:720px){nav.links a.sm{display:none}}
+.theme{border:1px solid var(--fd-line);background:var(--fd-surface);border-radius:999px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer}
+.hero{padding:60px 0 30px}
+.hero h1{font-size:clamp(36px,6.5vw,66px);max-width:16ch}
+.hero h1 em{font-style:normal;color:var(--fd-accent)}
+.hero p{max-width:64ch;font-size:clamp(16px,2vw,19px);color:var(--fd-muted)}
+.hero p b{color:var(--fd-ink)}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;border:1px solid var(--fd-line);background:var(--fd-surface);font-weight:600;text-decoration:none;color:var(--fd-ink);cursor:pointer}
+.btn.primary{background:var(--fd-accent);border-color:var(--fd-accent);color:var(--fd-on-accent)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.problem{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;margin-top:20px}
+.problem .card{padding:16px}
+.problem p{margin:6px 0 0;color:var(--fd-muted);font-size:15px}
+.flowline{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-top:22px;border:1px solid var(--fd-line);border-radius:14px;overflow:hidden;background:var(--fd-surface)}
+.flowline a{padding:12px 12px 14px;border-right:1px solid var(--fd-line);text-decoration:none;color:var(--fd-ink)}
+.flowline a:last-child{border-right:0}
+.flowline .n{font:500 11px var(--fd-mono);color:var(--fd-accent);display:block}
+.flowline b{display:block;font-size:15px}
+.flowline small{color:var(--fd-muted);font-size:13px;line-height:1.35;display:block;margin-top:2px}
+@media (max-width:820px){.flowline{grid-template-columns:repeat(3,1fr)}.flowline a:nth-child(3){border-right:0}.flowline a:nth-child(-n+3){border-bottom:1px solid var(--fd-line)}}
+@media (max-width:460px){.flowline{grid-template-columns:repeat(2,1fr)}.flowline a{border-right:1px solid var(--fd-line)!important;border-bottom:1px solid var(--fd-line)}.flowline a:nth-child(2n){border-right:0!important}}
+.story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:18px;align-items:start;margin-top:20px}
+@media (max-width:900px){.story{grid-template-columns:minmax(0,1fr)}}
+.step{padding:18px;border-bottom:1px solid var(--fd-line)}
+.step:last-child{border-bottom:0}
+.step h3{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.step h3 .num{font:500 12px var(--fd-mono);background:var(--fd-accent-soft);color:var(--fd-accent);border-radius:999px;padding:2px 9px}
+label{display:block;font-size:14px;font-weight:600;margin:10px 0 4px}
+input[type=text],textarea,select{width:100%;padding:9px 11px;border:1px solid var(--fd-line);border-radius:8px;background:var(--fd-paper)}
+textarea{min-height:110px;resize:vertical}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.hint{font-size:13px;color:var(--fd-muted);margin:6px 0 0}
+.status{display:inline-flex;align-items:center;gap:6px;font:600 13px var(--fd-body);padding:3px 10px;border-radius:999px;white-space:nowrap}
+.s-ready{background:color-mix(in srgb,var(--fd-ok) 14%,transparent);color:var(--fd-ok)}
+.s-info{background:color-mix(in srgb,var(--fd-warn) 16%,transparent);color:var(--fd-warn)}
+.s-dup{background:var(--fd-soft);color:var(--fd-muted)}
+.s-human{background:color-mix(in srgb,var(--fd-risk) 14%,transparent);color:var(--fd-risk)}
+.grid-kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;font-size:14.5px;margin:0}
+.grid-kv dt{color:var(--fd-muted)}
+.grid-kv dd{margin:0}
+.meter{display:inline-flex;gap:3px;vertical-align:middle;margin-right:6px}
+.meter i{width:12px;height:8px;border-radius:2px;background:var(--fd-line)}
+.meter i.on{background:var(--fd-accent)}
+.flag{margin:8px 0 0;padding:9px 12px;border-radius:8px;font-size:14px;border-left:3px solid var(--fd-warn);background:color-mix(in srgb,var(--fd-warn) 9%,transparent)}
+.flag.risk{border-color:var(--fd-risk);background:color-mix(in srgb,var(--fd-risk) 9%,transparent)}
+.redacted{font-family:var(--fd-mono);font-size:13.5px;white-space:pre-wrap;word-break:break-word;background:var(--fd-soft);border-radius:8px;padding:10px 12px;margin-top:8px}
+.tool{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid var(--fd-line);border-radius:10px;background:var(--fd-paper)}
+.tool .dot{width:12px;height:12px;border-radius:50%;flex:none;margin-top:6px;background:var(--c)}
+.tool p{margin:4px 0 8px;font-size:14.5px}
+.decide{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.decide button{padding:8px 14px;border-radius:8px;border:1px solid var(--fd-line);background:var(--fd-surface);cursor:pointer;font-weight:600}
+.decide button[data-d="approve"]{border-color:var(--fd-ok);color:var(--fd-ok)}
+.decide button[data-d="decline"]{border-color:var(--fd-risk);color:var(--fd-risk)}
+.err{color:var(--fd-risk);font-size:14px;margin:8px 0 0}
+.log{list-style:none;padding:0;margin:10px 0 0;font-size:14px}
+.log li{padding:8px 10px;border:1px solid var(--fd-line);border-radius:8px;margin-top:6px;background:var(--fd-paper)}
+.prompt{border:1px solid var(--fd-line);border-radius:10px;padding:12px;margin-top:10px;background:var(--fd-paper)}
+.prompt b{display:block}
+.prompt .p{font-family:var(--fd-mono);font-size:13px;white-space:pre-wrap;margin:6px 0;color:var(--fd-ink)}
+.prompt .chk{font-size:13.5px;color:var(--fd-ok)}
+.queue{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--fd-line);vertical-align:top}
+th{font:500 11px var(--fd-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--fd-muted)}
+.queue table{min-width:760px}
+.queue td.mono{white-space:nowrap}
+.queue tr.on td{background:var(--fd-accent-soft)}
+.queue button.link{border:0;background:none;padding:0;color:var(--fd-accent);font-weight:600;cursor:pointer;text-align:left}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 10px}
+.filters button{border:1px solid var(--fd-line);background:var(--fd-surface);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:14px}
+.filters button[aria-pressed="true"]{background:var(--fd-ink);color:var(--fd-paper);border-color:var(--fd-ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:12px;margin-top:16px}
+.kpi{padding:14px 16px}
+.kpi .v{font:700 30px var(--fd-display);line-height:1.1;margin-top:4px}
+.kpi .d{font-size:13px;color:var(--fd-muted)}
+.dash{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px;margin-top:14px}
+@media (max-width:860px){.dash{grid-template-columns:minmax(0,1fr)}}
+.chart svg{width:100%;height:auto;display:block}
+.note-do{margin-top:14px;padding:14px 16px;border-radius:12px;background:var(--fd-accent-soft)}
+.note-do b{color:var(--fd-accent)}
+.suite{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;margin-top:18px}
+.suite .card{padding:16px;border-top:4px solid var(--c)}
+.suite p{margin:6px 0;font-size:14.5px}
+.suite .when{color:var(--fd-muted);font-size:14px}
+.kit{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px;margin-top:18px}
+.kit .card{padding:16px}
+.kit p{margin:6px 0 10px;font-size:14.5px;color:var(--fd-muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+@media (max-width:700px){.two{grid-template-columns:1fr}}
+.two ul{margin:8px 0 0;padding-left:18px}
+.two li{margin:5px 0}
+.safe{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px;margin-top:18px}
+.safe .card{padding:14px 16px}
+.safe p{margin:4px 0 0;font-size:14.5px;color:var(--fd-muted)}
+footer{border-top:1px solid var(--fd-line);padding:28px 0 48px;color:var(--fd-muted);font-size:14px}
+footer a{color:var(--fd-ink)}
+footer .cols{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="AI Front Desk home">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="4" width="36" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M14 24h9" stroke="var(--fd-accent)" stroke-width="3.5" stroke-linecap="round"/><path d="M23 24c4 0 5-8 11-8M23 24h11M23 24c4 0 5 8 11 8" fill="none" stroke="var(--fd-accent)" stroke-width="3" stroke-linecap="round"/><circle cx="34" cy="16" r="2.6" fill="var(--fd-accent)"/><circle cx="34" cy="24" r="2.6" fill="var(--fd-accent)"/><circle cx="34" cy="32" r="2.6" fill="var(--fd-accent)"/></svg>
+      <span id="brandName">AI Front Desk</span>
+    </a>
+    <nav class="links" aria-label="Sections">
+      <a href="#story" class="sm">Story</a><a href="#queue" class="sm">Queue</a><a href="#dashboard">Dashboard</a><a href="#suite" class="sm">Tools</a>
+      <a href="https://github.com/amachadod/ai-front-desk">Code on GitHub</a>
+      <button class="theme" id="theme" type="button" aria-label="Switch light or dark theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="kicker">AI adoption, done in the open</div>
+      <h1>One front door for <em>AI ideas</em>.</h1>
+      <p id="tagline">Request, route, approve, measure.</p>
+      <p><b>Who it's for:</b> operations, enablement and team leads at a growing company who get more AI ideas than they can check, and want each one routed, risk-checked and measured.</p>
+      <p>People submit an idea in plain words. The front desk asks for what's missing, scores value, effort, data sensitivity and risk, spots duplicates, and suggests an existing tool when one fits. A person approves. The adoption kit trains the team, and the dashboard shows whether it helped.</p>
+      <div class="badges"><span class="label">Portfolio project by Alberto Machado Domínguez</span><span class="label">Simulated demo · fictional company</span><span class="label">Real rules and tests</span></div>
+      <div class="cta"><a class="btn primary" href="#story">Follow one request</a><a class="btn" href="https://github.com/amachadod/ai-front-desk">Code on GitHub</a></div>
+      <div class="problem">
+        <div class="card"><h3>Ideas pile up</h3><p>Every team has a list of "could AI do this?" ideas in chats, emails and docs, with no single place to send them.</p></div>
+        <div class="card"><h3>They overlap</h3><p>Two teams ask for the same thing, or for something a tool already does, and both get built or both get ignored.</p></div>
+        <div class="card"><h3>Risk checks get skipped</h3><p>Requests with customer data, bank details or decisions about people slip through because nobody asked.</p></div>
+      </div>
+      <nav class="flowline" aria-label="How it works">
+        <a href="#s1"><span class="n">01</span><b>Request</b><small>An idea in plain words</small></a>
+        <a href="#s2"><span class="n">02</span><b>Triage</b><small>What's missing, value, risk, duplicates</small></a>
+        <a href="#s3"><span class="n">03</span><b>Route</b><small>The tool that fits, and why</small></a>
+        <a href="#s4"><span class="n">04</span><b>Approve</b><small>A person decides, with a reason</small></a>
+        <a href="#s5"><span class="n">05</span><b>Train</b><small>Guide and prompts from the kit</small></a>
+        <a href="#dashboard"><span class="n">06</span><b>Measure</b><small>Adoption, time, quality</small></a>
+      </nav>
+    </div>
+  </section>
+
+  <section id="story" style="padding-top:10px">
+    <div class="wrap">
+      <div class="kicker">The demo · Northwind SaaS (fictional)</div>
+      <h2>Follow one request</h2>
+      <p class="muted" style="max-width:66ch">The triage below runs the real rules from the code, in your browser. Edit the request or write your own idea and press Triage. Nothing is sent anywhere.</p>
+      <div class="story">
+        <div class="card">
+          <div class="step" id="s1">
+            <h3><span class="num">1</span>Request</h3>
+            <label for="pick">Start from a sample request</label>
+            <select id="pick"></select>
+            <label for="reqTitle">Title</label>
+            <input type="text" id="reqTitle">
+            <label for="reqText">What's the problem? One example, and how long it takes.</label>
+            <textarea id="reqText"></textarea>
+            <label for="reqTeam">Team</label>
+            <select id="reqTeam"></select>
+            <div class="row" style="margin-top:12px"><button class="btn primary" id="go" type="button">Triage</button><span class="hint">Rules only. An optional AI mode is described in the README.</span></div>
+          </div>
+          <div class="step" id="s4">
+            <h3><span class="num">4</span>Approve</h3>
+            <p class="hint" style="margin-top:0">Nothing happens without a person. Every decision needs a reason and is recorded with the role of who made it.</p>
+            <label for="who">Who is deciding (a role is enough)</label>
+            <input type="text" id="who" value="Head of Customer Success">
+            <label for="why">Reason</label>
+            <textarea id="why" style="min-height:70px" placeholder="Why approve, ask for changes or decline?"></textarea>
+            <label id="riskBox" hidden style="font-weight:400"><input type="checkbox" id="reviewed"> I reviewed this high-risk request against the Responsible AI Use Policy with its owner.</label>
+            <div class="decide" role="group" aria-label="Decision">
+              <button type="button" data-d="approve">Approve</button><button type="button" data-d="changes">Ask for changes</button><button type="button" data-d="decline">Decline</button>
+            </div>
+            <p class="err" id="err" role="alert" hidden></p>
+            <ul class="log" id="log" aria-live="polite"></ul>
+          </div>
+        </div>
+        <div class="card" aria-live="polite">
+          <div class="step" id="s2">
+            <h3><span class="num">2</span>Triage <span id="status"></span></h3>
+            <div id="triage"></div>
+          </div>
+          <div class="step" id="s3">
+            <h3><span class="num">3</span>Route</h3>
+            <div id="route"></div>
+          </div>
+          <div class="step" id="s5">
+            <h3><span class="num">5</span>Train</h3>
+            <div id="train"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="queue" style="padding-top:10px">
+    <div class="wrap">
+      <div class="kicker">Request queue</div>
+      <h2>Twenty ideas, triaged</h2>
+      <p class="muted" style="max-width:66ch">Fictional requests from Northwind SaaS, submitted by role. They include vague ideas, two duplicates, a fictional IBAN and customer list that get redacted, two requests about people that go to human review, and ideas that existing tools already cover.</p>
+      <div class="filters" role="group" aria-label="Filter the queue" id="filters"></div>
+      <div class="card queue"><table><thead><tr><th>ID</th><th>Request</th><th>Team</th><th>Status</th><th>Route</th><th>Risk</th><th>Value / effort</th></tr></thead><tbody id="qbody"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="dashboard">
+    <div class="wrap">
+      <div class="kicker">06 · Measure</div>
+      <h2>Adoption dashboard</h2>
+      <p class="muted"><span class="label" style="background:var(--fd-accent-soft);color:var(--fd-accent)">Illustrative sample data</span> Computed in code from sample usage, with unit tests. Not real results.</p>
+      <div class="kpis" id="kpis"></div>
+      <div class="dash">
+        <div class="card pad chart"><h3>Weekly active users as a share of licensed seats</h3><p class="hint" style="margin-top:2px">Illustrative sample data, last 8 weeks.</p><div id="chart"></div></div>
+        <div class="card pad"><h3>By tool, this week</h3><p class="hint" style="margin-top:2px">Illustrative sample data.</p><table id="bytool" style="margin-top:6px"></table></div>
+      </div>
+      <div class="note-do" id="action"></div>
+    </div>
+  </section>
+
+  <section id="kit" style="padding-top:10px">
+    <div class="wrap">
+      <div class="kicker">Adoption kit</div>
+      <h2>What the team gets with every approved tool</h2>
+      <div class="kit">
+        <div class="card"><h3>Prompt library</h3><p>12 prompts for marketing, sales, support and customer success, each with when to use it, an example and a "check before you send" line.</p><a href="https://github.com/amachadod/ai-front-desk/blob/main/kit/prompt-library.md">Read it</a></div>
+        <div class="card"><h3>40-minute training</h3><p>Agenda, live demo and two exercises, including spotting a hidden instruction in a pasted email. Designed, not yet delivered to a team.</p><a href="https://github.com/amachadod/ai-front-desk/blob/main/kit/training-outline.md">Read it</a></div>
+        <div class="card"><h3>One-week checklist</h3><p>Day by day, from reading the policy to rating outputs and submitting a new idea.</p><a href="https://github.com/amachadod/ai-front-desk/blob/main/kit/onboarding-checklist.md">Read it</a></div>
+        <div class="card"><h3>Responsible AI Use Policy</h3><p>One page: purpose, approved tools, data rules, the human check, outside text, logging and who to ask.</p><a href="https://github.com/amachadod/ai-front-desk/blob/main/kit/responsible-ai-policy.md">Read it</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="suite" style="padding-top:10px">
+    <div class="wrap">
+      <div class="kicker">How it connects to my other tools</div>
+      <h2>Where the front desk sends requests</h2>
+      <p class="muted" style="max-width:66ch">Each route links to a working demo of a tool I built. The front desk doesn't call them: it recommends one, a person approves, and the team starts with the kit.</p>
+      <div class="suite" id="suiteGrid"></div>
+    </div>
+  </section>
+
+  <section style="padding-top:10px">
+    <div class="wrap">
+      <div class="kicker">Honesty</div>
+      <h2>What's real and what's simulated</h2>
+      <div class="two">
+        <div class="card pad"><h3>Real</h3><ul><li>The triage rules: missing info, value, effort, sensitivity, risk, duplicates and routing (run live above)</li><li>Redaction of IBANs, cards, emails, phones and keys</li><li>The approval rules and the dashboard calculations</li><li>12 automated tests</li><li>The adoption kit and the policy, as documents</li><li>The six tools it routes to (each with its own demo)</li></ul></div>
+        <div class="card pad"><h3>Simulated</h3><ul><li>Northwind SaaS, its people and its requests</li><li>Every number on the dashboard (illustrative sample data)</li><li>Approvals: they live in this page only and disappear on reload</li><li>Integrations with Asana, Slack, HubSpot or Notion: described, not connected</li><li>The training: designed, not yet delivered</li></ul></div>
+      </div>
+      <div class="kicker" style="margin-top:40px">Safety and governance</div>
+      <div class="safe">
+        <div class="card"><h3>A person approves</h3><p>Nothing is built, connected or rolled out without a recorded human decision and reason.</p></div>
+        <div class="card"><h3>Outside text is data</h3><p>Requests are read, never obeyed. In AI mode, Claude sees only redacted text and can raise a risk, never lower it.</p></div>
+        <div class="card"><h3>Nothing extra stored</h3><p>The demo keeps nothing. Logs hold counts only, and decisions record a role, not a name.</p></div>
+        <div class="card"><h3>Redaction first</h3><p>Bank details, cards, emails, phones and keys are removed before a request is shown, compared or sent anywhere.</p></div>
+        <div class="card"><h3>No HR data, no decisions about people</h3><p>Hiring, pay, performance and monitoring requests go to human review. The front desk never connects to HR systems.</p></div>
+        <div class="card"><h3>GDPR in mind</h3><p>Only what the task needs, with a clear purpose. Call recordings need consent, and personal data stays in approved tools.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><b style="color:var(--fd-ink)" id="footName">AI Front Desk</b> · Portfolio project by Alberto Machado Domínguez · The company, people and numbers in the demo are fictional.<br>
+      Contact: <a href="mailto:albertomachdom@gmail.com">albertomachdom@gmail.com</a> · <a href="https://www.linkedin.com/in/alberto-machado-dom%C3%ADnguez-708290251/" target="_blank" rel="noopener noreferrer">LinkedIn</a> · <a href="https://github.com/amachadod/ai-front-desk">Code on GitHub</a> · <a href="https://github.com/amachadod/ai-front-desk/blob/main/docs/case-study.md">Case study</a></div>
+      <div>Part of the suite: <span id="footSuite"></span></div>
+    </div>
+    <p style="margin:14px 0 0;font-size:13px">Claude, Asana, Slack, HubSpot, Notion and the other products named are trademarks of their owners. This is an independent project, not affiliated with any of them.</p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script type="module">
+import { triage } from "./lib/triage.js";
+import { decide } from "./lib/approval.js";
+import { promptsFor } from "./lib/kit.js";
+
+const D = window.FRONTDESK;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const tools = D.hub.tools, toolById = (id) => tools.find((t) => t.id === id);
+const STATUS_CLS = { "Ready for approval": "s-ready", "Needs info": "s-info", "Possible duplicate": "s-dup", "Needs human review": "s-human" };
+const statusPill = (s) => `<span class="status ${STATUS_CLS[s] || ""}">${esc(s)}</span>`;
+const meter = (n) => `<span class="meter" aria-hidden="true">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}</span>${n}/5`;
+
+// Theme
+const root = document.documentElement;
+try { const t = localStorage.getItem("fd-theme"); if (t) root.dataset.theme = t; } catch {}
+$("theme").onclick = () => {
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("fd-theme", root.dataset.theme); } catch {}
+  drawChart();
+};
+
+// Names come from hub.config.json, so a rename is one edit.
+$("brandName").textContent = D.hub.name; $("footName").textContent = D.hub.name; $("tagline").textContent = D.hub.tagline; document.title = D.hub.name;
+$("footSuite").innerHTML = tools.map((t) => `<a href="${t.demo}">${esc(t.name)}</a>`).join(" · ");
+
+// ---------- Story ----------
+let card = null, log = [];
+$("pick").innerHTML = D.requests.map((r) => `<option value="${r.id}">${r.id} · ${esc(r.title)}</option>`).join("") + `<option value="new">Write your own idea…</option>`;
+$("reqTeam").innerHTML = `<option value="">Not sure</option>` + D.hub.teams.map((t) => `<option>${esc(t)}</option>`).join("");
+function load(id) {
+  const r = D.requests.find((x) => x.id === id);
+  $("pick").value = r ? id : "new";
+  $("reqTitle").value = r ? r.title : "";
+  $("reqText").value = r ? r.text : "";
+  $("reqTeam").value = r?.team || "";
+  run();
+}
+$("pick").onchange = () => load($("pick").value);
+$("go").onclick = run;
+
+function run() {
+  const id = $("pick").value === "new" ? "R-NEW" : $("pick").value;
+  const earlier = id === "R-NEW" ? D.requests : D.requests.slice(0, D.requests.findIndex((r) => r.id === id));
+  card = triage({ id, title: $("reqTitle").value || "Untitled idea", text: $("reqText").value, team: $("reqTeam").value || null }, { tools, earlier, threshold: D.hub.duplicateThreshold });
+  log = []; $("log").innerHTML = ""; $("err").hidden = true; $("why").value = ""; $("reviewed").checked = false;
+  showTriage(); showRoute(); showTrain();
+  document.querySelectorAll("#qbody tr").forEach((tr) => tr.classList.toggle("on", tr.dataset.id === id));
+}
+
+function showTriage() {
+  const c = card;
+  $("status").innerHTML = statusPill(c.status);
+  $("riskBox").hidden = c.risk !== "high";
+  $("triage").innerHTML = `
+    <dl class="grid-kv">
+      <dt>Team</dt><dd>${esc(c.team || "Not clear yet")}</dd>
+      <dt>Time it takes</dt><dd>${c.hoursPerWeek != null ? `about ${c.hoursPerWeek} hours a week` : "not given"}</dd>
+      <dt>Value</dt><dd>${meter(c.value)}</dd>
+      <dt>Effort</dt><dd>${meter(c.effort)}</dd>
+      <dt>Priority</dt><dd>${esc(c.priority)}</dd>
+      <dt>Data</dt><dd>${c.sensitivity === "none" ? "Nothing sensitive found" : `<b>${esc(c.sensitivity)}</b>${c.removed.length ? ` · removed: ${esc(c.removed.join(", "))}` : ""}`}</dd>
+      <dt>Risk</dt><dd><b style="color:var(${c.risk === "high" ? "--fd-risk" : c.risk === "medium" ? "--fd-warn" : "--fd-ok"})">${esc(c.risk)}</b></dd>
+    </dl>
+    ${c.riskReasons.map((r) => `<p class="flag ${c.risk === "high" ? "risk" : ""}">${esc(r)}</p>`).join("")}
+    ${c.missing.length ? `<p class="flag"><b>Questions back to the requester:</b><br>${c.missing.map(esc).join("<br>")}</p>` : ""}
+    ${c.duplicates.length ? `<p class="flag">Similar to ${c.duplicates.map((d) => `<b>${esc(d.id)}</b> "${esc(d.title)}" (${Math.round(d.score * 100)}% alike)`).join(", ")}.</p>` : ""}
+    ${c.redacted ? `<div class="redacted" aria-label="Request after redaction">${esc(c.title)}\n${esc(c.text)}</div>` : ""}`;
+}
+
+function toolCard(t, reason) {
+  return `<div class="tool" style="--c:${t.accent}"><span class="dot"></span><div><b>${esc(t.name)}</b><p>${esc(reason || t.does)}</p><a href="${t.demo}">Open the ${esc(t.name)} demo</a> · <a href="${t.code}">Code</a></div></div>`;
+}
+
+function showRoute() {
+  const r = card.route, t = r.tool && toolById(r.tool);
+  if (r.type === "existing-tool") $("route").innerHTML = toolCard(t, r.reason);
+  else if (r.type === "duplicate") $("route").innerHTML = `<p style="margin:0">${esc(r.reason)}</p>${t ? `<p class="hint">Once merged, it would go to:</p>${toolCard(t)}` : ""}`;
+  else if (r.type === "human-review") $("route").innerHTML = `<p class="flag risk" style="margin-top:0">${esc(r.reason)}</p>`;
+  else $("route").innerHTML = `<p style="margin:0">${esc(r.reason)}</p>`;
+}
+
+function showTrain() {
+  const t = card.route.tool && card.route.type !== "human-review" ? toolById(card.route.tool) : null;
+  const ps = promptsFor(D.prompts, { tool: t?.id || "none", team: card.team });
+  if (card.route.type === "human-review") { $("train").innerHTML = `<p class="hint" style="margin-top:0">No training until a person has reviewed the risk.</p>`; return; }
+  $("train").innerHTML = `<p class="hint" style="margin-top:0">${t ? `${esc(t.name)} rollout: the 40-minute training, the one-week checklist, and these prompts from the kit.` : "For a new idea: the request-writing prompt, then a small pilot."}</p>` +
+    (ps.length ? ps : D.prompts.filter((p) => /vague idea/i.test(p.title))).map((p) => `<div class="prompt"><b>${esc(p.title)}</b><span class="hint">${esc(p.when)}</span><div class="p">${esc(p.prompt)}</div><span class="chk">Check before you send: ${esc(p.check)}</span></div>`).join("");
+}
+
+document.querySelectorAll(".decide button").forEach((b) => b.addEventListener("click", () => {
+  try {
+    const d = decide(card, { decision: b.dataset.d, reason: $("why").value, by: $("who").value, reviewedRisk: $("reviewed").checked });
+    log.unshift(d); $("err").hidden = true;
+    $("log").innerHTML = log.map((x) => `<li><b>${esc(x.outcome)}</b> by ${esc(x.by)}: "${esc(x.reason)}"<br><span class="hint">${esc(x.next)} · recorded ${new Date(x.at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span></li>`).join("");
+  } catch (e) { $("err").textContent = e.message; $("err").hidden = false; }
+}));
+
+// ---------- Queue ----------
+const FILTERS = ["All", "Ready for approval", "Needs info", "Possible duplicate", "Needs human review"];
+let filter = "All";
+function showQueue() {
+  $("filters").innerHTML = FILTERS.map((f) => `<button type="button" aria-pressed="${f === filter}" data-f="${esc(f)}">${esc(f)} (${f === "All" ? D.cards.length : D.cards.filter((c) => c.status === f).length})</button>`).join("");
+  $("filters").querySelectorAll("button").forEach((b) => (b.onclick = () => { filter = b.dataset.f; showQueue(); }));
+  $("qbody").innerHTML = D.cards.filter((c) => filter === "All" || c.status === filter).map((c) => `<tr data-id="${c.id}">
+    <td class="mono">${c.id}</td>
+    <td><button type="button" class="link" data-id="${c.id}">${esc(c.title)}</button><br><span class="hint">${esc(c.submittedBy || "")}</span></td>
+    <td>${esc(c.team || "?")}</td><td>${statusPill(c.status)}</td>
+    <td>${c.route.tool && c.route.type !== "human-review" ? esc(toolById(c.route.tool).name) : c.route.type === "human-review" ? "Human review" : "New idea"}</td>
+    <td>${esc(c.risk)}${c.redacted ? " · redacted" : ""}</td><td class="mono">${c.value} / ${c.effort}</td></tr>`).join("");
+  $("qbody").querySelectorAll("button.link").forEach((b) => (b.onclick = () => { load(b.dataset.id); $("story").scrollIntoView(); }));
+}
+
+// ---------- Dashboard ----------
+const d = D.dashboard;
+const sign = (n, unit = "") => (n > 0 ? `+${n}${unit}` : `${n}${unit}`);
+$("kpis").innerHTML = [
+  ["Adoption rate", `${d.current.adoptionRate}%`, `${sign(d.change.adoptionRate, " pts")} vs last week · of ${d.licensed} seats`],
+  ["Active users", d.current.activeUsers, "used a tool this week"],
+  ["Hours saved", d.current.hoursSaved, `per week, estimated · ${sign(d.change.hoursSaved)}`],
+  ["Quality", `${d.current.acceptedShare}%`, `accepted as is · ${d.current.editedShare}% edited · ${d.current.rejectedShare}% rejected`],
+  ["Satisfaction", `${d.current.satisfaction}/5`, `average rating · ${sign(d.change.satisfaction)}`],
+].map(([k, v, s]) => `<div class="card kpi"><span class="label">${k}</span><div class="v">${v}</div><div class="d">${s}</div><div class="d" style="font-size:11.5px">Illustrative sample data</div></div>`).join("");
+$("bytool").innerHTML = `<thead><tr><th>Tool</th><th>Outputs</th><th>Rejected</th><th>Hours saved</th></tr></thead><tbody>${d.byTool.map((t) => `<tr><td>${esc(toolById(t.tool)?.name || t.tool)}</td><td class="mono">${t.outputs}</td><td class="mono" style="${t.rejectedShare >= 15 ? "color:var(--fd-risk);font-weight:600" : ""}">${t.rejectedShare}%</td><td class="mono">${t.hoursSaved}</td></tr>`).join("")}</tbody>`;
+$("action").innerHTML = `<b>What I would do about it:</b> ${esc(d.action.replace(/^(\w+):/, (m, id) => `${toolById(id)?.name || id}:`))}`;
+
+function drawChart() {
+  const pts = d.trend, W = 560, H = 220, L = 40, R = 16, T = 16, B = 34;
+  const css = getComputedStyle(document.documentElement);
+  const ink = css.getPropertyValue("--fd-muted").trim(), line = css.getPropertyValue("--fd-line").trim(), acc = css.getPropertyValue("--fd-accent").trim();
+  const x = (i) => L + (i * (W - L - R)) / (pts.length - 1), y = (v) => T + (H - T - B) * (1 - v / 100);
+  const path = pts.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p.adoptionRate).toFixed(1)}`).join("");
+  const grid = [0, 25, 50, 75, 100].map((v) => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="${line}"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="${ink}">${v}%</text>`).join("");
+  const labels = pts.map((p, i) => `<text x="${x(i)}" y="${H - 12}" text-anchor="middle" font-size="11" fill="${ink}">${p.week.slice(-3)}</text>`).join("");
+  const last = pts.at(-1);
+  $("chart").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Line chart: weekly adoption rate rose from ${pts[0].adoptionRate}% to ${last.adoptionRate}% over 8 weeks (illustrative sample data).">${grid}${labels}
+    <path d="${path}" fill="none" stroke="${acc}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    ${pts.map((p, i) => `<circle cx="${x(i)}" cy="${y(p.adoptionRate)}" r="${i === pts.length - 1 ? 4.5 : 3}" fill="${acc}"><title>${p.week}: ${p.adoptionRate}% adoption, ${p.hoursSaved} hours saved</title></circle>`).join("")}
+    <text x="${x(pts.length - 1) - 6}" y="${y(last.adoptionRate) - 10}" text-anchor="end" font-size="12" font-weight="600" fill="${acc}">${last.adoptionRate}%</text></svg>`;
+}
+drawChart();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawChart);
+
+// ---------- Suite ----------
+$("suiteGrid").innerHTML = tools.map((t) => `<div class="card" style="--c:${t.accent}"><h3>${esc(t.name)}</h3><p>${esc(t.does)}</p><p class="when"><b>Routed here for:</b> ${esc(t.when)}</p><a href="${t.demo}">Live demo</a> · <a href="${t.code}">Code</a></div>`).join("");
+
+showQueue();
+load("R-101");
+</script>
+</body>
+</html>
