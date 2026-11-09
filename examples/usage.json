@@ -1,0 +1,140 @@
+{
+ "_note": "Illustrative sample data for a fictional company. Not real usage.",
+ "label": "Illustrative sample data",
+ "licensed": 60,
+ "weeks": [
+  {
+   "week": "2026-W38",
+   "activeUsers": 9,
+   "outputs": 85,
+   "edited": 14,
+   "rejected": 6,
+   "minutesSaved": 950,
+   "ratings": {
+    "5": 4,
+    "4": 3,
+    "3": 2
+   }
+  },
+  {
+   "week": "2026-W39",
+   "activeUsers": 14,
+   "outputs": 140,
+   "edited": 22,
+   "rejected": 9,
+   "minutesSaved": 1550,
+   "ratings": {
+    "5": 6,
+    "4": 5,
+    "3": 2,
+    "2": 1
+   }
+  },
+  {
+   "week": "2026-W40",
+   "activeUsers": 19,
+   "outputs": 205,
+   "edited": 30,
+   "rejected": 14,
+   "minutesSaved": 2300,
+   "ratings": {
+    "5": 8,
+    "4": 7,
+    "3": 3,
+    "2": 1
+   }
+  },
+  {
+   "week": "2026-W41",
+   "activeUsers": 24,
+   "outputs": 262,
+   "edited": 36,
+   "rejected": 19,
+   "minutesSaved": 2950,
+   "ratings": {
+    "5": 10,
+    "4": 9,
+    "3": 4,
+    "2": 1
+   }
+  },
+  {
+   "week": "2026-W42",
+   "activeUsers": 27,
+   "outputs": 301,
+   "edited": 40,
+   "rejected": 24,
+   "minutesSaved": 3350,
+   "ratings": {
+    "5": 11,
+    "4": 10,
+    "3": 5,
+    "2": 2
+   }
+  },
+  {
+   "week": "2026-W43",
+   "activeUsers": 31,
+   "outputs": 348,
+   "edited": 44,
+   "rejected": 30,
+   "minutesSaved": 3850,
+   "ratings": {
+    "5": 12,
+    "4": 12,
+    "3": 6,
+    "2": 2
+   }
+  },
+  {
+   "week": "2026-W44",
+   "activeUsers": 30,
+   "outputs": 342,
+   "edited": 41,
+   "rejected": 34,
+   "minutesSaved": 3750,
+   "ratings": {
+    "5": 11,
+    "4": 11,
+    "3": 7,
+    "2": 3
+   }
+  },
+  {
+   "week": "2026-W45",
+   "activeUsers": 34,
+   "outputs": 389,
+   "edited": 45,
+   "rejected": 37,
+   "minutesSaved": 4300,
+   "ratings": {
+    "5": 13,
+    "4": 13,
+    "3": 7,
+    "2": 2
+   }
+  }
+ ],
+ "byTool": {
+  "minuta": {
+   "outputs": 132,
+   "rejected": 7,
+   "minutesSaved": 1650
+  },
+  "posta": {
+   "outputs": 104,
+   "rejected": 19,
+   "minutesSaved": 1050
+  },
+  "threadline": {
+   "outputs": 88,
+   "rejected": 6,
+   "minutesSaved": 850
+  },
+  "signalpost": {
+   "outputs": 65,
+   "rejected": 5,
+   "minutesSaved": 750
+  }
+ }
+}

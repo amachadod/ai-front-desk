@@ -1,0 +1,165 @@
+{
+ "_note": "Fictional requests from Northwind SaaS, a fictional company. Roles only, no names. One request contains a fictional IBAN and one a fictional customer list, to show redaction.",
+ "requests": [
+  {
+   "id": "R-101",
+   "date": "2026-10-05",
+   "submittedBy": "Customer success lead",
+   "team": "Customer success",
+   "title": "Summarise customer calls into next steps",
+   "text": "We spend hours summarising customer calls. Four of us each spend 90 minutes a week writing notes after calls and copying next steps into HubSpot, and follow-ups still get lost. Could AI turn the call notes into tasks with owners?"
+  },
+  {
+   "id": "R-102",
+   "date": "2026-10-07",
+   "submittedBy": "Sales manager",
+   "team": "Sales",
+   "title": "Turn call notes into follow-up tasks",
+   "text": "After discovery calls our reps forget follow-ups. Could AI turn call notes into follow-up tasks with owners? Roughly 3 hours a week per rep, 6 reps each."
+  },
+  {
+   "id": "R-103",
+   "date": "2026-10-08",
+   "submittedBy": "Marketing coordinator",
+   "team": null,
+   "title": "AI for emails?",
+   "text": "Can we use AI for emails?"
+  },
+  {
+   "id": "R-104",
+   "date": "2026-10-09",
+   "submittedBy": "Operations manager",
+   "team": "Operations",
+   "title": "Answer handbook questions in Slack",
+   "text": "New joiners ask the same questions in Slack about expenses, remote work and the AI policy. I answer them for about 5 hours a week. Answers should come from our Notion handbook and say which page they used."
+  },
+  {
+   "id": "R-105",
+   "date": "2026-10-12",
+   "submittedBy": "Hiring manager, Product",
+   "team": "Product",
+   "title": "Rank job applicants automatically",
+   "text": "Score the CVs we get for the junior designer role and shortlist the top 10 candidates, so we save 8 hours a week of screening."
+  },
+  {
+   "id": "R-106",
+   "date": "2026-10-13",
+   "submittedBy": "Finance analyst",
+   "team": "Finance",
+   "title": "Match supplier invoices to payments",
+   "text": "Every month I match supplier invoices to bank payments by hand. Example: the invoice from Brightpath Ltd was paid to IBAN DE89 3704 0044 0532 0130 00 but the reference was wrong. It takes about 12 hours a month."
+  },
+  {
+   "id": "R-107",
+   "date": "2026-10-14",
+   "submittedBy": "Marketing manager",
+   "team": "Marketing",
+   "title": "Social posts for every release",
+   "text": "For every product release we need Instagram, LinkedIn and TikTok posts. Writing captions for each network and scheduling them takes about 4 hours a week."
+  },
+  {
+   "id": "R-108",
+   "date": "2026-10-15",
+   "submittedBy": "Head of Support",
+   "team": "Support",
+   "title": "Morning briefing of the support inbox",
+   "text": "Our shared support inbox gets about 300 emails a week. A morning briefing of what's urgent, plus draft replies we can edit, would save me about 5 hours a week."
+  },
+  {
+   "id": "R-109",
+   "date": "2026-10-19",
+   "submittedBy": "Growth marketer",
+   "team": "Marketing",
+   "title": "Split the Q1 paid media budget",
+   "text": "Plan how to split €40,000 across Google, LinkedIn and Meta next quarter and forecast the CPA for each. It takes me two full days every quarter."
+  },
+  {
+   "id": "R-110",
+   "date": "2026-10-20",
+   "submittedBy": "Product marketing manager",
+   "team": "Marketing",
+   "title": "See which competitor ads keep running",
+   "text": "Before our spring campaign I want to know which competitors' ads on Meta have been running the longest. I spend about 3 hours a week on manual ad research."
+  },
+  {
+   "id": "R-111",
+   "date": "2026-10-21",
+   "submittedBy": "Support agent",
+   "team": "Support",
+   "title": "Auto-reply to every support ticket",
+   "text": "Use AI to automatically send replies to customers without anyone checking them, so we always hit the 4-hour first response target. It would save the team about 10 hours a week."
+  },
+  {
+   "id": "R-112",
+   "date": "2026-10-22",
+   "submittedBy": "Sales operations analyst",
+   "team": "Sales",
+   "title": "Clean up our customer list",
+   "text": "Here is part of our customer list to de-duplicate: anna.ribeiro@lumen.example, +351 912 345 678, jorge@cobalt.example, jorge.m@cobalt.example. Fixing duplicates in HubSpot takes about 3 hours a week."
+  },
+  {
+   "id": "R-113",
+   "date": "2026-10-23",
+   "submittedBy": "Customer success manager",
+   "team": "Customer success",
+   "title": "Bot that answers policy questions from Notion",
+   "text": "A Slack bot that answers handbook questions from our Notion pages and says which page it used. New joiners ask the same policy questions every week, about 4 hours a week of answering."
+  },
+  {
+   "id": "R-114",
+   "date": "2026-10-26",
+   "submittedBy": "Support team lead",
+   "team": "Support",
+   "title": "Track agent productivity",
+   "text": "Monitor how many tickets each agent closes and flag the slowest agents to their manager every Friday. About 2 hours a week of spreadsheets today."
+  },
+  {
+   "id": "R-115",
+   "date": "2026-10-27",
+   "submittedBy": "Support content writer",
+   "team": "Support",
+   "title": "Translate help centre articles",
+   "text": "We have 120 help articles in English. Customers in Spain and Portugal ask for Spanish and Portuguese versions. Translating and keeping them updated takes about 6 hours a week."
+  },
+  {
+   "id": "R-116",
+   "date": "2026-10-28",
+   "submittedBy": "Finance manager",
+   "team": "Finance",
+   "title": "Something with AI for finance",
+   "text": "Can we use AI in finance somehow?"
+  },
+  {
+   "id": "R-117",
+   "date": "2026-10-29",
+   "submittedBy": "Product manager",
+   "team": "Product",
+   "title": "Release notes from Asana tasks",
+   "text": "Each release I write customer-facing release notes from about 30 Asana tasks. It takes about 2 hours a week. Could AI draft them from the task titles and descriptions?"
+  },
+  {
+   "id": "R-118",
+   "date": "2026-11-02",
+   "submittedBy": "Operations coordinator",
+   "team": "Operations",
+   "title": "Find out-of-date handbook pages",
+   "text": "Some of our Notion handbook pages contradict each other (the home office budget is €500 on one page and €300 on another) and some are years old. Flag pages that are out of date or conflict. About 2 hours a week of checking."
+  },
+  {
+   "id": "R-119",
+   "date": "2026-11-03",
+   "submittedBy": "Sales enablement manager",
+   "team": "Sales",
+   "title": "LinkedIn posts for sales reps",
+   "text": "Our reps want to share two LinkedIn posts a week about customer stories. Each of the 8 reps spends about 1 hour a week writing them."
+  },
+  {
+   "id": "R-120",
+   "date": "2026-11-04",
+   "submittedBy": "Finance manager",
+   "team": "Finance",
+   "title": "Monthly board report numbers",
+   "text": "Every month I pull MRR and churn from HubSpot into a slide for the board. It takes about 6 hours a month and copy-paste mistakes happen."
+  }
+ ]
+}
