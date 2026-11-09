@@ -1,0 +1,22 @@
+/* AI Front Desk brand tokens. Import this file, or copy the variables into a page's <style>.
+   Light and dark values both pass WCAG AA for body text (contrast ratios in brand/README.md). */
+:root{
+  --fd-ink:#15192b; --fd-muted:#5c6170; --fd-paper:#f6f5f1; --fd-surface:#ffffff; --fd-line:#e2e0d9; --fd-soft:#efeee9;
+  --fd-accent:#4338ca; --fd-accent-soft:#e8e7fb; --fd-on-accent:#ffffff;
+  --fd-ok:#17784a; --fd-warn:#9a6200; --fd-risk:#b42318;
+  --fd-display:"Fraunces",Georgia,serif; --fd-body:"Public Sans",system-ui,sans-serif; --fd-mono:"IBM Plex Mono",ui-monospace,monospace;
+  /* Each tool in the suite keeps its own accent; the hub uses them as small markers only. */
+  --tool-minuta:#d23a26; --tool-posta:#c99700; --tool-threadline:#0f766e; --tool-signalpost:#e14d12; --tool-plano:#1f47c7; --tool-adsdetective:#8f2f3d;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --fd-ink:#ecebf3; --fd-muted:#a3a7b3; --fd-paper:#12141c; --fd-surface:#1b1e29; --fd-line:#2d3140; --fd-soft:#232634;
+    --fd-accent:#a5b4fc; --fd-accent-soft:#272b4a; --fd-on-accent:#12141c;
+    --fd-ok:#52c48a; --fd-warn:#e2ad4a; --fd-risk:#ff7b6e;
+  }
+}
+:root[data-theme="dark"]{
+  --fd-ink:#ecebf3; --fd-muted:#a3a7b3; --fd-paper:#12141c; --fd-surface:#1b1e29; --fd-line:#2d3140; --fd-soft:#232634;
+  --fd-accent:#a5b4fc; --fd-accent-soft:#272b4a; --fd-on-accent:#12141c;
+  --fd-ok:#52c48a; --fd-warn:#e2ad4a; --fd-risk:#ff7b6e;
+}

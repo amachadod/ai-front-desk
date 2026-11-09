@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="AI Front Desk logo">
+  <title>AI Front Desk</title>
+  <!-- A door frame (the front door) with one path going in and splitting into three routes. -->
+  <rect x="6" y="4" width="36" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="3.5"/>
+  <path d="M14 24h9" stroke="#4338ca" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M23 24c4 0 5-8 11-8M23 24h11M23 24c4 0 5 8 11 8" fill="none" stroke="#4338ca" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="34" cy="16" r="2.6" fill="#4338ca"/><circle cx="34" cy="24" r="2.6" fill="#4338ca"/><circle cx="34" cy="32" r="2.6" fill="#4338ca"/>
+</svg>
